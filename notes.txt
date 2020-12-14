@@ -1,0 +1,30 @@
+brew install nginx 
+
+sudo nginx       run 
+
+sudo nginx -s stop      stop-run 
+
+edit nginx.conf file - its a monolothic file where we do all things at one place: path is : /usr/local/etc/nginx/nginx.conf 
+
+Sample conf: 
+
+events { }
+
+http {
+    upstream nodejs-backend{
+        server localhost:3000 weight=3;
+        server localhost:3001;
+    }
+
+    server {
+        listen 8081;
+
+        location / {
+            proxy_set_header new-hello true;
+            proxy_pass http://nodejs-backend;
+        }
+    }
+}
+
+
+ 
